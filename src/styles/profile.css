@@ -1,0 +1,392 @@
+/* ── Profile View ─────────────────────────────── */
+.profile-view {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.profile-hero {
+  text-align: center;
+}
+
+.profile-hero-emoji {
+  font-size: 4rem;
+}
+
+.profile-hero-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #6c3beb;
+  margin-top: 0.5rem;
+}
+
+.profile-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  border: 3px solid #d0c0f8;
+  border-radius: 1.5rem;
+  padding: 1.25rem 1.75rem;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(108, 59, 235, 0.08);
+  min-width: 7rem;
+}
+
+.profile-card:hover {
+  border-color: #6c3beb;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(108, 59, 235, 0.2);
+}
+
+.profile-avatar {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.profile-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #2c3e50;
+}
+
+.profile-actions-row {
+  display: flex;
+  justify-content: center;
+}
+
+.manage-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.45rem 1.1rem;
+  border-radius: 1rem;
+  border: 2px solid #d0c0f8;
+  background: white;
+  color: #6c3beb;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.manage-btn:hover {
+  border-color: #6c3beb;
+  background: #f3eeff;
+}
+
+/* ── Management mode ──────────────────────────── */
+.management-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 480px;
+  padding: 0 0.25rem;
+}
+
+.management-title {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #6c3beb;
+}
+
+.done-manage-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.4rem 1rem;
+  border-radius: 1rem;
+  border: 2px solid #6c3beb;
+  background: #6c3beb;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.done-manage-btn:hover {
+  background: #5a2ed6;
+}
+
+.management-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+.management-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  border-radius: 1rem;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.management-avatar {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.management-name {
+  flex: 1;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #2c3e50;
+}
+
+.edit-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 2px solid #d0c0f8;
+  background: white;
+  color: #6c3beb;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.edit-btn:hover {
+  border-color: #6c3beb;
+  background: #f3eeff;
+}
+
+.delete-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.4rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 2px solid #e74c3c;
+  background: white;
+  color: #e74c3c;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+.edit-row {
+  width: 100%;
+}
+
+.edit-row-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.save-edit-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: #6c3beb;
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.save-edit-btn:disabled {
+  background: #c0b0f0;
+  cursor: default;
+}
+
+.save-edit-btn:hover:not(:disabled) {
+  background: #5a2ed6;
+}
+
+.cancel-edit-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 2px solid #bdc3c7;
+  background: white;
+  color: #7f8c8d;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.cancel-edit-btn:hover {
+  border-color: #7f8c8d;
+}
+
+.profile-empty {
+  color: #95a5a6;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: right;
+}
+
+.profile-divider {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #95a5a6;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── New profile form ─────────────────────────── */
+.new-profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+.new-profile-form {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.new-profile-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding: 0.65rem 1.25rem;
+  border-radius: 1rem;
+  border: none;
+  background: #6c3beb;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.new-profile-btn:hover:not(:disabled) {
+  background: #5a2ed6;
+}
+
+.new-profile-btn:disabled {
+  background: #c0b0f0;
+  cursor: default;
+}
+
+.profile-error {
+  color: #e74c3c;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* ── Emoji-embedded input ─────────────────────── */
+/* Wrapper that looks like a single input field */
+.input-with-emoji {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 3px solid #d0c0f8;
+  border-radius: 1rem;
+  background: white;
+  transition: border-color 0.2s;
+  min-width: 0;
+}
+
+.input-with-emoji:focus-within {
+  border-color: #6c3beb;
+}
+
+/* The emoji button — sits at the inline-start edge */
+.emoji-in-input-btn {
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0.45rem 0.5rem 0.45rem 0.65rem;
+  background: none;
+  border: none;
+  border-inline-end: 2px solid #e8d8ff;
+  cursor: pointer;
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+
+.emoji-in-input-btn:hover {
+  transform: scale(1.2);
+}
+
+/* The text input — fills remaining space, no own border */
+.inline-text-input {
+  flex: 1;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0.55rem 0.75rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #2c3e50;
+  min-width: 0;
+  border-radius: 0 0.75rem 0.75rem 0;
+}
+
+.inline-text-input::placeholder {
+  color: #bdc3c7;
+  font-weight: 600;
+}
+
+/* Dropdown picker — floats above the input row */
+.emoji-picker--dropdown {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  z-index: 200;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  background: white;
+  border-radius: 1rem;
+  padding: 0.6rem 0.75rem;
+  box-shadow: 0 4px 20px rgba(108, 59, 235, 0.18);
+  border: 2px solid #e0d0ff;
+}
+
+.emoji-option {
+  font-size: 1.5rem;
+  background: none;
+  border: 3px solid transparent;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  padding: 0.1rem 0.2rem;
+  line-height: 1;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.emoji-option:hover {
+  transform: scale(1.2);
+}
+
+.emoji-option.selected {
+  border-color: #6c3beb;
+  background: #ede6ff;
+}

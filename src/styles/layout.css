@@ -1,0 +1,119 @@
+/* ── Header & Nav ─────────────────────────────── */
+.app-header {
+  background: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.app-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #6c3beb;
+  white-space: nowrap;
+}
+
+.app-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.5rem 1.25rem;
+  border-radius: 2rem;
+  border: 3px solid #d0c0f8;
+  background: white;
+  color: #6c3beb;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  border-color: #6c3beb;
+  background: #f3eeff;
+}
+
+.nav-btn.active {
+  background: #6c3beb;
+  border-color: #6c3beb;
+  color: white;
+}
+
+/* ── Main content ─────────────────────────────── */
+.app-main {
+  flex: 1;
+  padding: 2rem 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Profile badge in header ──────────────────── */
+.profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #6c3beb;
+}
+
+.switch-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.3rem 0.8rem;
+  border-radius: 1rem;
+  border: 2px solid #d0c0f8;
+  background: white;
+  color: #6c3beb;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.switch-btn:hover {
+  border-color: #6c3beb;
+  background: #f3eeff;
+}
+
+/* ── Practice sub-header strip ────────────────── */
+.practice-sub-header {
+  background: transparent;
+  padding: 0.5rem 1.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.sub-header-label {
+  color: #95a5a6;
+}
+
+.sub-header-sep {
+  color: #d0c0f8;
+}
+
+.sub-header-change {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #6c3beb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+
+.sub-header-change:hover {
+  opacity: 1;
+}

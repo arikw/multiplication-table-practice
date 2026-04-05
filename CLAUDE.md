@@ -20,7 +20,7 @@ No test suite exists.
 - **Vite 5**, `base: './'` in vite.config.js
 - **No router** — view switching via `currentView` string in `App.vue`
 - **No Vuex/Pinia** — global state via `Vue.reactive()` in `src/store.js`
-- **No CSS framework** — all styles in `src/style.css`
+- **No CSS framework** — styles split across `src/style.css` (entry point + responsive) and `src/styles/` partials
 - Page is `dir="rtl"`; math expressions use `direction: ltr`
 
 ### Store (`src/store.js`)
@@ -57,8 +57,19 @@ Two store boolean flags handle signaling across the component tree without props
 
 The `practiceLabel` computed (range-compressed display like "תרגול כפולות 3-6, 8") is **duplicated** in both `App.vue` and `PracticeView.vue` — both must stay in sync if the logic changes.
 
-### CSS Conventions
-- Shared color utility classes (`.cell-green`, `.cell-yellow`, `.cell-orange`, `.cell-red`, `.cell-unattempted`) used across TableView, SummaryView, and PracticeView
+### CSS Structure
+`src/style.css` is the sole entry point (imported by `main.js`). It `@import`s six partials then adds the responsive `@media` block:
+
+| File | Contents |
+|---|---|
+| `styles/base.css` | Reset, body, color utility classes, user-select rules |
+| `styles/layout.css` | Header, nav, main, profile badge, sub-header strip |
+| `styles/practice.css` | Question card, ready screen, number selector, pause overlay |
+| `styles/table.css` | Multiplication grid, legend |
+| `styles/summary.css` | Progress bar, summary rows, mini-cells, reset button |
+| `styles/profile.css` | Profile cards, management mode, emoji-embedded input widget |
+
+Other conventions:
 - Use logical CSS properties (`inset-inline-start/end`, `border-inline-end`) for RTL correctness
-- `.input-with-emoji`: composite input widget — emoji button + `<input>` share a single border wrapper; picker is `position: absolute; bottom: calc(100% + 6px)` dropdown
+- `.input-with-emoji`: emoji button + `<input>` share a single border wrapper; picker is `position: absolute; bottom: calc(100% + 6px)` dropdown
 - `.pause-overlay` is `position: absolute; inset: 0` anchored to `.question-card` (which has `position: relative; overflow: hidden`)

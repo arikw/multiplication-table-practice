@@ -1,0 +1,71 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #e8f4fd 0%, #f0e8fd 100%);
+  color: #2c3e50;
+  min-height: 100vh;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Shared color classes ─────────────────────── */
+.cell-green {
+  background-color: #2ecc71 !important;
+  color: white !important;
+}
+
+.cell-yellow {
+  background-color: #f1c40f !important;
+  color: #2c3e50 !important;
+}
+
+.cell-orange {
+  background-color: #e67e22 !important;
+  color: white !important;
+}
+
+.cell-red {
+  background-color: #e74c3c !important;
+  color: white !important;
+}
+
+.cell-unattempted {
+  background-color: #ecf0f1 !important;
+  color: #bdc3c7 !important;
+}
+
+/* ── No text selection on interactive/display areas ── */
+.mult-table,
+.mult-table *,
+.table-legend,
+.table-legend *,
+.pairs-strip,
+.mini-cell,
+.number-badge,
+.feedback,
+.nav-btn,
+.submit-btn,
+.start-btn,
+.ready-card h2,
+.ready-card p,
+.profile-card,
+.profile-avatar,
+.profile-name,
+.profile-hero-title,
+.view-title,
+.progress-labels,
+.progress-bar-track {
+  user-select: none;
+  -webkit-user-select: none;
+}
