@@ -122,15 +122,24 @@ const PRAISE = [
   '💪 כוכב!'
 ]
 
-// Unattempted and red are drawn from exclusively when available;
-// orange/yellow/green weights only matter when all cells are already correct.
-const PRIORITY   = new Set(['cell-unattempted', 'cell-red'])
-const WEIGHTS = {
+// Base weights by skill level
+const BASE_WEIGHTS = {
   'cell-unattempted': 200,
-  'cell-red':         100,
-  'cell-orange':       30,
-  'cell-yellow':       10,
-  'cell-green':         5
+  'cell-red':          80,
+  'cell-orange':       25,
+  'cell-yellow':        8,
+  'cell-green':         3
+}
+
+// Penalty multipliers by recency position (0 = just shown, 1 = one before, …)
+// Position 0 is excluded entirely; further positions get progressively lighter penalties.
+// Red/orange pairs need a longer cool-down so we use a bigger window.
+const RECENCY_PENALTIES = [0, 0, 0, 0.15, 0.15, 0.4, 0.4, 0.7, 1]
+const RECENT_MAX = RECENCY_PENALTIES.length
+
+function daysSince(iso) {
+  if (!iso) return Infinity
+  return (Date.now() - new Date(iso).getTime()) / 86400000
 }
 
 export default {
@@ -156,7 +165,9 @@ export default {
       // Feedback
       feedbackState: null,
       feedbackMessage: '',
-      feedbackTimeout: null
+      feedbackTimeout: null,
+      // Anti-repetition: newest first, max RECENT_MAX entries
+      recentShown: []
     }
   },
 
@@ -195,6 +206,7 @@ export default {
 
     startPractice() {
       this.ready = true
+      this.recentShown = []
       store.practiceActive = true
       this.$nextTick(() => this.nextQuestion())
     },
@@ -270,32 +282,59 @@ export default {
 
     pickNextPair() {
       const selected = new Set(store.selectedNumbers)
-      const allPairs = []
-      const priorityPairs = []
+
+      // Build recency map using canonical key min,max so both orientations share one slot
+      const recentMap = new Map()
+      this.recentShown.forEach((p, i) => {
+        recentMap.set(`${Math.min(p.a, p.b)},${Math.max(p.a, p.b)}`, i)
+      })
+
+      // Build pool of canonical pairs (a ≤ b) only — avoids counting the same concept twice.
+      // The display order is randomised separately in nextQuestion.
+      const pairs = []
 
       for (let a = 0; a <= 10; a++) {
-        for (let b = 0; b <= 10; b++) {
+        for (let b = a; b <= 10; b++) {
           if (!selected.has(a) && !selected.has(b)) continue
+
           const record = store.results[String(a)][String(b)]
           const colorClass = scoreToColorClass(record.weightedScore)
-          const weight = WEIGHTS[colorClass]
-          const pair = { a, b, weight }
-          allPairs.push(pair)
-          if (PRIORITY.has(colorClass)) priorityPairs.push(pair)
+          let weight = BASE_WEIGHTS[colorClass]
+
+          // Staleness boost for green cells not practiced recently
+          if (colorClass === 'cell-green') {
+            const days = daysSince(record.lastCorrectAt)
+            if (days > 7)      weight = 20
+            else if (days > 3) weight = 8
+          }
+
+          // Recency penalty via canonical key
+          const recentIdx = recentMap.get(`${a},${b}`)
+          if (recentIdx !== undefined) {
+            weight = Math.round(weight * RECENCY_PENALTIES[recentIdx])
+          }
+
+          pairs.push({ a, b, weight })
         }
       }
 
-      // Always pick from unattempted/red pool first; fall back to all pairs
-      const pool = priorityPairs.length > 0 ? priorityPairs : allPairs
-      if (pool.length === 0) return { a: 0, b: 0 }
+      // Fallback: if all weights zeroed (tiny pool, everything blocked), lift exclusion
+      let total = pairs.reduce((s, p) => s + p.weight, 0)
+      if (total === 0) {
+        pairs.forEach(p => {
+          const rec = store.results[String(p.a)][String(p.b)]
+          p.weight = BASE_WEIGHTS[scoreToColorClass(rec.weightedScore)]
+        })
+        total = pairs.reduce((s, p) => s + p.weight, 0)
+      }
+      if (total === 0) return { a: 0, b: 0 }
 
-      const totalWeight = pool.reduce((s, p) => s + p.weight, 0)
-      let r = Math.random() * totalWeight
-      for (const pair of pool) {
+      let r = Math.random() * total
+      for (const pair of pairs) {
         r -= pair.weight
         if (r <= 0) return pair
       }
-      return pool[pool.length - 1]
+      return pairs[pairs.length - 1]
     },
 
     nextQuestion() {
@@ -303,8 +342,15 @@ export default {
       clearTimeout(this.feedbackTimeout)
 
       const pair = this.pickNextPair()
-      this.a = pair.a
-      this.b = pair.b
+      // Store canonical form for recency tracking
+      this.recentShown.unshift({ a: Math.min(pair.a, pair.b), b: Math.max(pair.a, pair.b) })
+      if (this.recentShown.length > RECENT_MAX) this.recentShown.pop()
+      // Randomise display order so both orientations appear over time
+      if (Math.random() < 0.5) {
+        this.a = pair.a; this.b = pair.b
+      } else {
+        this.a = pair.b; this.b = pair.a
+      }
       this.userAnswer = ''
       this.feedbackState = null
       this.feedbackMessage = ''

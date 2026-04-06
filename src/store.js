@@ -28,7 +28,8 @@ function buildEmptyResults() {
         attemptCount: 0,
         correctCount: 0,
         totalCount: 0,
-        lastAttemptAt: null
+        lastAttemptAt: null,
+        lastCorrectAt: null
       }
     }
   }
@@ -41,8 +42,9 @@ function migrateResults(results) {
     for (let b = 0; b <= 10; b++) {
       const cell = results[String(a)]?.[String(b)]
       if (cell) {
-        if (cell.correctCount === undefined) cell.correctCount = 0
-        if (cell.totalCount   === undefined) cell.totalCount   = 0
+        if (cell.correctCount  === undefined) cell.correctCount  = 0
+        if (cell.totalCount    === undefined) cell.totalCount    = 0
+        if (cell.lastCorrectAt === undefined) cell.lastCorrectAt = null
       }
     }
   }
@@ -220,9 +222,12 @@ function applyAttempt(a, b, rawScore, isCorrect, now) {
   const prev = record.weightedScore
   const newScore = prev === null ? rawScore : 0.7 * rawScore + 0.3 * prev
   record.weightedScore = Math.round(newScore * 10) / 10
-  record.attemptCount += 1
-  record.totalCount   += 1
-  if (isCorrect) record.correctCount += 1
+  record.attemptCount  += 1
+  record.totalCount    += 1
+  if (isCorrect) {
+    record.correctCount  += 1
+    record.lastCorrectAt  = now
+  }
   record.lastAttemptAt = now
 }
 
