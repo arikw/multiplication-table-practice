@@ -83,6 +83,7 @@
             v-model="userAnswer"
             :disabled="feedbackState !== null || paused"
             @keydown.enter="submitAnswer"
+            @focus="scrollSubmitIntoView"
             autocomplete="off"
           />
         </div>
@@ -121,12 +122,15 @@ const PRAISE = [
   '💪 כוכב!'
 ]
 
+// Unattempted and red are drawn from exclusively when available;
+// orange/yellow/green weights only matter when all cells are already correct.
+const PRIORITY   = new Set(['cell-unattempted', 'cell-red'])
 const WEIGHTS = {
-  'cell-unattempted': 100,
-  'cell-red': 80,
-  'cell-orange': 50,
-  'cell-yellow': 20,
-  'cell-green': 5
+  'cell-unattempted': 200,
+  'cell-red':         100,
+  'cell-orange':       30,
+  'cell-yellow':       10,
+  'cell-green':         5
 }
 
 export default {
@@ -266,8 +270,8 @@ export default {
 
     pickNextPair() {
       const selected = new Set(store.selectedNumbers)
-      const pairs = []
-      let totalWeight = 0
+      const allPairs = []
+      const priorityPairs = []
 
       for (let a = 0; a <= 10; a++) {
         for (let b = 0; b <= 10; b++) {
@@ -275,19 +279,23 @@ export default {
           const record = store.results[String(a)][String(b)]
           const colorClass = scoreToColorClass(record.weightedScore)
           const weight = WEIGHTS[colorClass]
-          pairs.push({ a, b, weight })
-          totalWeight += weight
+          const pair = { a, b, weight }
+          allPairs.push(pair)
+          if (PRIORITY.has(colorClass)) priorityPairs.push(pair)
         }
       }
 
-      if (pairs.length === 0) return { a: 0, b: 0 }
+      // Always pick from unattempted/red pool first; fall back to all pairs
+      const pool = priorityPairs.length > 0 ? priorityPairs : allPairs
+      if (pool.length === 0) return { a: 0, b: 0 }
 
+      const totalWeight = pool.reduce((s, p) => s + p.weight, 0)
       let r = Math.random() * totalWeight
-      for (const pair of pairs) {
+      for (const pair of pool) {
         r -= pair.weight
         if (r <= 0) return pair
       }
-      return pairs[pairs.length - 1]
+      return pool[pool.length - 1]
     },
 
     nextQuestion() {
@@ -316,6 +324,14 @@ export default {
       this.$nextTick(() => {
         if (this.$refs.answerInput) this.$refs.answerInput.focus()
       })
+    },
+
+    scrollSubmitIntoView() {
+      // On mobile, opening the keyboard shrinks the viewport and can hide the submit button.
+      // Wait for the keyboard animation then scroll it into view.
+      setTimeout(() => {
+        this.$el.querySelector('.submit-btn')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }, 350)
     },
 
     submitAnswer() {

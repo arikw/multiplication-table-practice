@@ -46,7 +46,7 @@
     <template v-else>
       <PracticeView v-if="currentView === 'practice'" />
       <TableView    v-else-if="currentView === 'table'" />
-      <SummaryView  v-else-if="currentView === 'summary'" />
+      <SummaryView  v-else-if="currentView === 'summary'" @start-practice="onStartPractice" />
     </template>
   </main>
 </template>
@@ -110,6 +110,10 @@ export default {
 
     triggerSettings() {
       store.openPracticeSettings = true
+    },
+
+    onStartPractice() {
+      this.currentView = 'practice'
     }
   }
 }

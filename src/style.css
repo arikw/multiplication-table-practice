@@ -36,4 +36,15 @@
     height: 1.8rem;
     font-size: 0.65rem;
   }
+
+  /* Allow the page to scroll when the virtual keyboard is open */
+  .app-main {
+    overflow-y: auto;
+    align-items: flex-start;
+  }
+
+  .practice-view {
+    justify-content: flex-start;
+    padding-top: 1rem;
+  }
 }

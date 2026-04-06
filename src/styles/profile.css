@@ -325,11 +325,15 @@
   border: none;
   border-inline-end: 2px solid #e8d8ff;
   cursor: pointer;
-  transition: transform 0.15s;
   flex-shrink: 0;
 }
 
-.emoji-in-input-btn:hover {
+.emoji-in-input-btn span {
+  display: inline-block;
+  transition: transform 0.15s;
+}
+
+.emoji-in-input-btn:hover span {
   transform: scale(1.2);
 }
 

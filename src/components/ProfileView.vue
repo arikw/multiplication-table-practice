@@ -21,7 +21,7 @@
 
       <div v-if="profiles.length > 0" class="profile-actions-row">
         <button class="manage-btn" @click="managementMode = true">
-          ✏️ ניהול תרגולים
+          ✏️ ניהול משתמשים
         </button>
       </div>
 
@@ -59,7 +59,7 @@
                     class="emoji-in-input-btn"
                     @click.stop="showEditEmojiPicker = !showEditEmojiPicker"
                     :title="'שנה אמוג\'י'"
-                  >{{ editEmoji }}</button>
+                  ><span>{{ editEmoji }}</span></button>
                   <input
                     class="inline-text-input"
                     v-model="editNameValue"
@@ -98,7 +98,7 @@
             class="emoji-in-input-btn"
             @click="showNewEmojiPicker = !showNewEmojiPicker"
             :title="'בחר אמוג\'י'"
-          >{{ newEmoji }}</button>
+          ><span>{{ newEmoji }}</span></button>
           <input
             ref="nameInput"
             v-model="newName"
@@ -154,7 +154,7 @@ export default {
       AVATARS,
       profiles: [],
       newName: '',
-      newEmoji: AVATARS[0],
+      newEmoji: AVATARS[Math.floor(Math.random() * AVATARS.length)],
       showNewEmojiPicker: false,
       error: '',
       managementMode: false,
@@ -186,7 +186,7 @@ export default {
 
       createProfile(name, this.newEmoji)
       this.newName = ''
-      this.newEmoji = AVATARS[0]
+      this.newEmoji = AVATARS[Math.floor(Math.random() * AVATARS.length)]
       this.showNewEmojiPicker = false
       this.error = ''
       this.$emit('profile-selected')
@@ -243,6 +243,17 @@ export default {
         this.$refs.nameInput.focus()
       }
     })
+    this._onDocClick = (e) => {
+      if (!e.target.closest('.input-with-emoji')) {
+        this.showNewEmojiPicker = false
+        this.showEditEmojiPicker = false
+      }
+    }
+    document.addEventListener('click', this._onDocClick)
+  },
+
+  beforeUnmount() {
+    document.removeEventListener('click', this._onDocClick)
   }
 }
 </script>

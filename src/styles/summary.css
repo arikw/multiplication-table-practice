@@ -17,12 +17,29 @@
   gap: 0.75rem;
 }
 
-.progress-labels {
+.progress-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.progress-bar-header {
   display: flex;
   justify-content: space-between;
-  font-size: 0.95rem;
+  align-items: baseline;
+}
+
+.progress-bar-title {
+  font-size: 0.85rem;
   font-weight: 700;
   color: #6c3beb;
+}
+
+.progress-bar-fraction {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #95a5a6;
+  direction: ltr;
 }
 
 .progress-bar-track {
@@ -91,6 +108,7 @@
 }
 
 .reset-btn {
+  margin-top: 1.5rem;
   font-family: 'Nunito', sans-serif;
   font-size: 1rem;
   font-weight: 700;
@@ -106,5 +124,174 @@
 
 .reset-btn:hover {
   background: #e74c3c;
+  color: white;
+}
+
+/* ── Recommendation box ───────────────────────── */
+.recommendation-box {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 4px 20px rgba(108, 59, 235, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  border: 2px solid #e8d8ff;
+}
+
+.recommendation-text {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1.5;
+}
+
+.recommendation-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+}
+
+.rec-number-badge {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 0.6rem;
+  background: #f0e8ff;
+  color: #6c3beb;
+  font-size: 1rem;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rec-practice-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding: 0.7rem 2rem;
+  border-radius: 2rem;
+  border: none;
+  background: #6c3beb;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(108, 59, 235, 0.3);
+}
+
+.rec-practice-btn:hover {
+  background: #5a2ed6;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(108, 59, 235, 0.4);
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-around;
+}
+
+.progress-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.progress-stat-value {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #6c3beb;
+  line-height: 1;
+}
+
+.progress-stat-total {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #b0a0e0;
+}
+
+.progress-stat-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #95a5a6;
+}
+
+/* ── Shared results controls (used in both TableView & SummaryView) ── */
+.results-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.results-controls .difficulty-bar {
+  margin-top: 1rem;
+}
+
+.mode-toggle {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.mode-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.45rem 1.25rem;
+  border-radius: 2rem;
+  border: 2px solid #d0c0f8;
+  background: white;
+  color: #6c3beb;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-btn:hover {
+  border-color: #6c3beb;
+  background: #f3eeff;
+}
+
+.mode-btn.active {
+  background: #6c3beb;
+  border-color: #6c3beb;
+  color: white;
+}
+
+.difficulty-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.difficulty-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #95a5a6;
+}
+
+.difficulty-btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.35rem 1rem;
+  border-radius: 2rem;
+  border: 2px solid #d0c0f8;
+  background: white;
+  color: #6c3beb;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.difficulty-btn:hover {
+  border-color: #6c3beb;
+  background: #f3eeff;
+}
+
+.difficulty-btn.active {
+  background: #6c3beb;
+  border-color: #6c3beb;
   color: white;
 }
