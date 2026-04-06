@@ -20,8 +20,6 @@
   align-items: center;
   gap: 1.5rem;
   width: 100%;
-  position: relative; /* anchor for pause overlay */
-  overflow: hidden;
 }
 
 .question-area {
@@ -292,52 +290,4 @@
 .shortcut-btn:hover {
   border-color: #6c3beb;
   background: #f3eeff;
-}
-
-/* ── Pause overlay ────────────────────────────── */
-.pause-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border-radius: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 50;
-}
-
-.pause-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  text-align: center;
-}
-
-.pause-icon {
-  font-size: 3rem;
-}
-
-.pause-text {
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: #6c3beb;
-}
-
-.pause-hint {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #95a5a6;
-}
-
-.pause-fade-enter-active,
-.pause-fade-leave-active {
-  transition: opacity 0.25s;
-}
-
-.pause-fade-enter-from,
-.pause-fade-leave-to {
-  opacity: 0;
 }

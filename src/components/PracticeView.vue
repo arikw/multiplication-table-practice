@@ -56,17 +56,6 @@
     <!-- ── Active question screen ── -->
     <template v-else>
 
-      <!-- Pause overlay (window blur) -->
-      <Transition name="pause-fade">
-        <div v-if="paused" class="pause-overlay">
-          <div class="pause-card">
-            <span class="pause-icon">⏸️</span>
-            <span class="pause-text">תרגול מושהה</span>
-            <span class="pause-hint">חזור לחלון כדי להמשיך</span>
-          </div>
-        </div>
-      </Transition>
-
       <div class="question-card">
         <div class="question-area">
           <span class="factor">{{ a }}</span>
@@ -81,7 +70,7 @@
             min="0"
             max="100"
             v-model="userAnswer"
-            :disabled="feedbackState !== null || paused"
+            :disabled="feedbackState !== null"
             @keydown.enter="submitAnswer"
             @focus="scrollSubmitIntoView"
             autocomplete="off"
@@ -90,7 +79,7 @@
 
         <button
           class="submit-btn"
-          :disabled="feedbackState !== null || userAnswer === '' || paused"
+          :disabled="feedbackState !== null || userAnswer === ''"
           @click="submitAnswer"
         >
           בדוק!
@@ -159,9 +148,6 @@ export default {
       timerInterval: null,
       elapsedSeconds: 0,
       totalPausedMs: 0,
-      // Pause (window blur)
-      paused: false,
-      pauseStartedAt: null,
       // Feedback
       feedbackState: null,
       feedbackMessage: '',
@@ -212,7 +198,6 @@ export default {
     },
 
     openSettings() {
-      this.pauseTimer()
       this.settingsOpen = true
       store.practiceActive = false
     },
@@ -220,7 +205,6 @@ export default {
     closeSettings() {
       this.settingsOpen = false
       store.practiceActive = true
-      this.resumeTimer()
       this.$nextTick(() => {
         if (this.$refs.answerInput) this.$refs.answerInput.focus()
       })
@@ -244,38 +228,6 @@ export default {
         ? []
         : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       saveCurrentProfile()
-    },
-
-    // ── Timer pause / resume ─────────────────────
-
-    pauseTimer() {
-      if (this.paused) return
-      this.paused = true
-      this.pauseStartedAt = Date.now()
-      clearInterval(this.timerInterval)
-      this.timerInterval = null
-    },
-
-    resumeTimer() {
-      if (!this.paused) return
-      this.paused = false
-      if (this.pauseStartedAt !== null) {
-        this.totalPausedMs += Date.now() - this.pauseStartedAt
-        this.pauseStartedAt = null
-      }
-      this.timerInterval = setInterval(() => { this.elapsedSeconds++ }, 1000)
-    },
-
-    onWindowBlur() {
-      if (this.ready && !this.settingsOpen && this.feedbackState === null && !this.paused) {
-        this.pauseTimer()
-      }
-    },
-
-    onWindowFocus() {
-      if (this.ready && this.paused && !this.settingsOpen) {
-        this.resumeTimer()
-      }
     },
 
     // ── Question logic ───────────────────────────
@@ -356,16 +308,8 @@ export default {
       this.feedbackMessage = ''
       this.elapsedSeconds = 0
       this.totalPausedMs = 0
-      this.paused = false
-      this.pauseStartedAt = null
       this.startTime = Date.now()
-
-      if (document.hasFocus()) {
-        this.timerInterval = setInterval(() => { this.elapsedSeconds++ }, 1000)
-      } else {
-        this.paused = true
-        this.pauseStartedAt = Date.now()
-      }
+      this.timerInterval = setInterval(() => { this.elapsedSeconds++ }, 1000)
 
       this.$nextTick(() => {
         if (this.$refs.answerInput) this.$refs.answerInput.focus()
@@ -381,7 +325,7 @@ export default {
     },
 
     submitAnswer() {
-      if (this.feedbackState !== null || this.userAnswer === '' || this.paused) return
+      if (this.feedbackState !== null || this.userAnswer === '') return
 
       clearInterval(this.timerInterval)
       this.timerInterval = null
@@ -404,19 +348,10 @@ export default {
     }
   },
 
-  mounted() {
-    this._onBlur = () => this.onWindowBlur()
-    this._onFocus = () => this.onWindowFocus()
-    window.addEventListener('blur', this._onBlur)
-    window.addEventListener('focus', this._onFocus)
-  },
-
   beforeUnmount() {
     store.practiceActive = false
     clearInterval(this.timerInterval)
     clearTimeout(this.feedbackTimeout)
-    window.removeEventListener('blur', this._onBlur)
-    window.removeEventListener('focus', this._onFocus)
   }
 }
 </script>
